@@ -8,26 +8,22 @@ public class RandomSpawn : MonoBehaviour
 {
 
     public GameObject GlassPrefab;
+    public int howManyItems;
 
     public Vector3 center;
     public Vector3 size;
 
     GameObject[] obj;
 
-    void Start()
-    {
-        
-    }
-
     // Update is called once per frame
     void Update()
     {
         obj = GameObject.FindGameObjectsWithTag("glass");
-        if (obj.Length <= 10)
+        if (obj.Length <= howManyItems)
         {
             SpawnGlass();
         }
-        center.z = gameObject.transform.position.z * 3;
+        center.z = gameObject.transform.position.z + 0.02f;
     }
 
     public void SpawnGlass()

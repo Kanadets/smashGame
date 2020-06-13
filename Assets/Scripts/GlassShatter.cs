@@ -7,18 +7,6 @@ public class GlassShatter : MonoBehaviour
 {
     public GameObject[] shatteredObject;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-     
-    }
-
     [System.Obsolete]
     private void OnTriggerEnter(Collider other)
     {

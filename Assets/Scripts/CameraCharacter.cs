@@ -14,11 +14,10 @@ public class CameraCharacter : MonoBehaviour
     public GameObject button;
     public GameObject glass;
 
-    //We use this when we implement UI
+    //for UI
     public  bool camMoving = false;
 
     private CharacterController cameraChar;
-    //A boolean whose value will be determined by OnTriggerEnter
     private bool collision = false;
     public Camera _cam;
 
@@ -46,11 +45,9 @@ public class CameraCharacter : MonoBehaviour
 
         Vector3 BallInstantiatePoint = _cam.ScreenToWorldPoint(new Vector3(mousePosx, mousePosy, _cam.nearClipPlane + spawnHelper));
 
-        //This checks if we have collided
         if (!collision && camMoving)
         {
             cameraChar.Move(Vector3.forward * Time.deltaTime * speed);
-            //This is so that the camera's movement will speed up
             speed = speed + incrementFactor;
         }
         else if (collision || !camMoving)
@@ -75,6 +72,7 @@ public class CameraCharacter : MonoBehaviour
             Debug.Log("Collided with glass!! Man down!!");
             camMoving = false;
             Reset();
+            //TODO UI
             //button.SetActive(true);
         }
     }
