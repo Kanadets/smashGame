@@ -1113,7 +1113,7 @@ MonoBehaviour:
     type: 3}
   howManyItems: 5
   center: {x: 0, y: 0, z: 23}
-  size: {x: 13, y: 0.2, z: 25}
+  size: {x: 13, y: 0.2, z: 5.62}
 --- !u!1 &2054810867
 GameObject:
   m_ObjectHideFlags: 0
