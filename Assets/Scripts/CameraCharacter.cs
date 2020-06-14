@@ -14,6 +14,7 @@ public class CameraCharacter : MonoBehaviour
     public GameObject button;
     public GameObject glass;
     public GameObject destory;
+
     //for UI
     public  bool camMoving = false;
 
@@ -40,7 +41,7 @@ public class CameraCharacter : MonoBehaviour
     {
         float mousePosx = Input.mousePosition.x;
         float mousePosy = Input.mousePosition.y;
-
+       
         Vector3 BallInstantiatePoint = _cam.ScreenToWorldPoint(new Vector3(mousePosx, mousePosy, _cam.nearClipPlane + spawnHelper));
 
         if (!collision && camMoving)
@@ -60,6 +61,8 @@ public class CameraCharacter : MonoBehaviour
             ballRigid = Instantiate(ball, BallInstantiatePoint, transform.rotation) as GameObject;
             ballRigid.GetComponent<Rigidbody>().AddForce(Vector3.forward * ballForce);
         }
+
+        gameObject.transform.position -= new Vector3(gameObject.transform.position.x, gameObject.transform.position.y, 0f);
     }
 
 
