@@ -14,7 +14,8 @@ public class CameraCharacter : MonoBehaviour
     public GameObject button;
     public GameObject glass;
     public GameObject destory;
-
+    public GameObject pauseMenu;
+    PauseMenu gameIsPaused;
     //for UI
     public  bool camMoving = false;
 
@@ -23,12 +24,15 @@ public class CameraCharacter : MonoBehaviour
     public Camera _cam;
 
 
+
     // Use this for initialization
     void Start()
     {
         StartCam();
         cameraChar = gameObject.transform.GetComponent<CharacterController>();
         _cam = gameObject.GetComponentInChildren<Camera>();
+        gameIsPaused = pauseMenu.GetComponent<PauseMenu>();
+        
     }
 
     // Update is called once per frame
@@ -39,12 +43,14 @@ public class CameraCharacter : MonoBehaviour
 
     void ControlChar()
     {
+        
+
         float mousePosx = Input.mousePosition.x;
         float mousePosy = Input.mousePosition.y;
        
         Vector3 BallInstantiatePoint = _cam.ScreenToWorldPoint(new Vector3(mousePosx, mousePosy, _cam.nearClipPlane + spawnHelper));
 
-        if (!collision && camMoving)
+        if (!collision && camMoving && gameIsPaused.GameIsPause == false)
         {
             cameraChar.Move(Vector3.forward * Time.deltaTime * speed);
             destory.transform.position = Vector3.MoveTowards(destory.transform.position, cameraChar.transform.position, speed);
@@ -55,7 +61,7 @@ public class CameraCharacter : MonoBehaviour
             cameraChar.Move(Vector3.zero);
         }
 
-        if (Input.GetMouseButtonDown(0) && camMoving)
+        if (Input.GetMouseButtonDown(0) && camMoving && gameIsPaused.GameIsPause == false)
         {
             GameObject ballRigid;
             ballRigid = Instantiate(ball, BallInstantiatePoint, transform.rotation) as GameObject;
@@ -73,9 +79,9 @@ public class CameraCharacter : MonoBehaviour
             collision = true;
             Debug.Log("Collided with glass!! Man down!!");
             camMoving = false;
-            Reset();
-            //TODO UI
-            //button.SetActive(true);
+            
+            
+            button.SetActive(true);
         }
     }
     public void StartCam()
