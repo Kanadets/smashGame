@@ -16,6 +16,9 @@ public class CameraCharacter : MonoBehaviour
     public GameObject destory;
     public GameObject pauseMenu;
     PauseMenu gameIsPaused;
+    public int ballCounter;
+    public Text ballCounterText;
+
     //for UI
     public  bool camMoving = false;
 
@@ -32,6 +35,7 @@ public class CameraCharacter : MonoBehaviour
         cameraChar = gameObject.transform.GetComponent<CharacterController>();
         _cam = gameObject.GetComponentInChildren<Camera>();
         gameIsPaused = pauseMenu.GetComponent<PauseMenu>();
+        UpdateBallCount(ballCounter);
         
     }
 
@@ -61,11 +65,12 @@ public class CameraCharacter : MonoBehaviour
             cameraChar.Move(Vector3.zero);
         }
 
-        if (Input.GetMouseButtonDown(0) && camMoving && gameIsPaused.GameIsPause == false)
+        if (Input.GetMouseButtonDown(0) && camMoving && gameIsPaused.GameIsPause == false && ballCounter > 0)
         {
             GameObject ballRigid;
             ballRigid = Instantiate(ball, BallInstantiatePoint, transform.rotation) as GameObject;
             ballRigid.GetComponent<Rigidbody>().AddForce(Vector3.forward * ballForce);
+            UpdateBallCount(-1);
         }
 
         gameObject.transform.position -= new Vector3(gameObject.transform.position.x, gameObject.transform.position.y, 0f);
@@ -79,8 +84,6 @@ public class CameraCharacter : MonoBehaviour
             collision = true;
             Debug.Log("Collided with glass!! Man down!!");
             camMoving = false;
-            
-            
             button.SetActive(true);
         }
     }
@@ -91,6 +94,12 @@ public class CameraCharacter : MonoBehaviour
     public void Reset()
     {
         SceneManager.LoadScene("Scene1");
+    }
+
+    public void UpdateBallCount(int count)
+    {
+        ballCounter += count;
+        ballCounterText.text = "Your Balls: " + ballCounter.ToString();
     }
 
 }
