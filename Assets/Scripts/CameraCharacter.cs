@@ -13,7 +13,7 @@ public class CameraCharacter : MonoBehaviour
     public float ballForce = 700;
     public GameObject button;
     public GameObject glass;
-
+    public GameObject destory;
     //for UI
     public  bool camMoving = false;
 
@@ -38,8 +38,6 @@ public class CameraCharacter : MonoBehaviour
 
     void ControlChar()
     {
-        
-
         float mousePosx = Input.mousePosition.x;
         float mousePosy = Input.mousePosition.y;
 
@@ -48,6 +46,7 @@ public class CameraCharacter : MonoBehaviour
         if (!collision && camMoving)
         {
             cameraChar.Move(Vector3.forward * Time.deltaTime * speed);
+            destory.transform.position = Vector3.MoveTowards(destory.transform.position, cameraChar.transform.position, speed);
             speed = speed + incrementFactor;
         }
         else if (collision || !camMoving)

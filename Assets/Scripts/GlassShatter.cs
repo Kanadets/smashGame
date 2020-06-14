@@ -22,6 +22,11 @@ public class GlassShatter : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        if(other.CompareTag("destroy"))
+        {
+            Destroy(gameObject);
+        }
             
     }
 
