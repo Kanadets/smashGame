@@ -18,6 +18,7 @@ public class BallScript : MonoBehaviour
         {
             Destroy(gameObject, 5f);
             player.UpdateBallCount(1);
+            player.UpdateScoreCount(1);
         }
 
         

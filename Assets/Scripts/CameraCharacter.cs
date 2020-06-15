@@ -11,13 +11,15 @@ public class CameraCharacter : MonoBehaviour
     public float spawnHelper = 4.5f;
     public GameObject ball;
     public float ballForce = 700;
-    public GameObject button;
+    public GameObject DeathMenu;
     public GameObject glass;
     public GameObject destory;
     public GameObject pauseMenu;
     PauseMenu gameIsPaused;
     public int ballCounter;
+    public int scoreCounter;
     public Text ballCounterText;
+    public Text score;
 
     //for UI
     public  bool camMoving = false;
@@ -84,7 +86,7 @@ public class CameraCharacter : MonoBehaviour
             collision = true;
             Debug.Log("Collided with glass!! Man down!!");
             camMoving = false;
-            button.SetActive(true);
+            DeathMenu.SetActive(true);
         }
     }
     public void StartCam()
@@ -94,12 +96,27 @@ public class CameraCharacter : MonoBehaviour
     public void Reset()
     {
         SceneManager.LoadScene("Scene1");
+        camMoving = true;
+        Time.timeScale = 1f;
+        gameIsPaused.GameIsPause = false;
     }
 
     public void UpdateBallCount(int count)
     {
         ballCounter += count;
         ballCounterText.text = "Your Balls: " + ballCounter.ToString();
+    }
+
+    public void UpdateScoreCount(int count)
+    {
+        scoreCounter += count;
+        score.text = "Score: " + scoreCounter.ToString();
+    }
+
+
+    public void MainMenu()
+    {
+        SceneManager.LoadScene(0);
     }
 
 }
