@@ -12,7 +12,7 @@ public class CameraCharacter : MonoBehaviour
     public GameObject ball;
     public float ballForce = 700;
     public GameObject DeathMenu;
-    public GameObject glass;
+    public GameObject[] glass;
     public GameObject destory;
     public GameObject pauseMenu;
     PauseMenu gameIsPaused;
@@ -20,6 +20,7 @@ public class CameraCharacter : MonoBehaviour
     public int scoreCounter;
     public Text ballCounterText;
     public Text score;
+    public Text finalScore;
 
     //for UI
     public  bool camMoving = false;
@@ -45,16 +46,12 @@ public class CameraCharacter : MonoBehaviour
     void Update()
     {
         ControlChar();
+        glass = GameObject.FindGameObjectsWithTag("glass");
     }
 
     void ControlChar()
     {
         
-
-        float mousePosx = Input.mousePosition.x;
-        float mousePosy = Input.mousePosition.y;
-       
-        Vector3 BallInstantiatePoint = _cam.ScreenToWorldPoint(new Vector3(mousePosx, mousePosy, _cam.nearClipPlane + spawnHelper));
 
         if (!collision && camMoving && gameIsPaused.GameIsPause == false)
         {
@@ -69,15 +66,30 @@ public class CameraCharacter : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0) && camMoving && gameIsPaused.GameIsPause == false && ballCounter > 0)
         {
-            GameObject ballRigid;
-            ballRigid = Instantiate(ball, BallInstantiatePoint, transform.rotation) as GameObject;
-            ballRigid.GetComponent<Rigidbody>().AddForce(Vector3.forward * ballForce);
+            ThrowBall();
             UpdateBallCount(-1);
+        }
+
+        if (Input.GetMouseButtonDown(0) && !camMoving)
+        {
+            ThrowBall();
         }
 
         gameObject.transform.position -= new Vector3(gameObject.transform.position.x, gameObject.transform.position.y, 0f);
     }
 
+    void ThrowBall()
+    {
+        float mousePosx = Input.mousePosition.x;
+        float mousePosy = Input.mousePosition.y;
+
+        Vector3 BallInstantiatePoint = _cam.ScreenToWorldPoint(new Vector3(mousePosx, mousePosy, _cam.nearClipPlane + spawnHelper));
+
+        GameObject ballRigid;
+        ballRigid = Instantiate(ball, BallInstantiatePoint, transform.rotation) as GameObject;
+        ballRigid.GetComponent<Rigidbody>().AddForce(Vector3.forward * ballForce);
+        
+    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -87,6 +99,10 @@ public class CameraCharacter : MonoBehaviour
             Debug.Log("Collided with glass!! Man down!!");
             camMoving = false;
             DeathMenu.SetActive(true);
+            for (int i = glass.Length - 1; i >= 0; i--)
+            {
+                GameObject.Destroy(glass[i]);
+            }
         }
     }
     public void StartCam()
@@ -111,6 +127,7 @@ public class CameraCharacter : MonoBehaviour
     {
         scoreCounter += count;
         score.text = "Score: " + scoreCounter.ToString();
+        finalScore.text = score.text;
     }
 
 

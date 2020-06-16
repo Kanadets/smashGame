@@ -9,7 +9,13 @@ public class PauseMenu : MonoBehaviour
 
     public GameObject pauseMenuUI;
 
-    
+    CameraCharacter player;
+
+    private void Start()
+    {
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<CameraCharacter>();
+    }
+
     void Update()
     {
         PauseMenuCheck();
@@ -33,14 +39,14 @@ public class PauseMenu : MonoBehaviour
     public void Resume()
     {
         pauseMenuUI.SetActive(false);
-        Time.timeScale = 1f;
+        player.StartCam();
         GameIsPause = false;
     }
 
     void Pause()
     {
         pauseMenuUI.SetActive(true);
-        Time.timeScale = 0f;
+        player.StartCam();
         GameIsPause = true;
     }
 }
